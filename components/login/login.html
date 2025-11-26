@@ -11,17 +11,25 @@
 
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">Email Address</label>
-                        <input type="email" class="form-control form-control-lg" id="email"
+                        <input type="email" class="form-control" id="email"
                             placeholder="Enter your email">
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label fw-semibold">Password</label>
-                        <input type="password" class="form-control form-control-lg" id="password"
+                        <input type="password" class="form-control" id="password"
                             placeholder="Enter your password">
                     </div>
 
-                    <button type="submit" class="btn btn-warning w-100 btn-lg mb-3" onclick="checkLogin()">Login</button>
+                    <div class="mb-3 text-center">
+                        <label for="alert" class="form-label text-danger fw-bold d-none" id="alertMessage">Wrong
+                            credentials. Please try again.</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 mb-3" onclick="checkLogin()">
+                        <span id="loginSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span>Login</span>
+                    </button>
 
                     <div class="text-center">
                         <span class="text-muted">Don't have an account?</span>

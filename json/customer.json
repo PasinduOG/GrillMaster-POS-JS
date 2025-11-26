@@ -1,20 +1,20 @@
 [
   {
     "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "password123"
+    "name": "Pasindu Madhuwantha",
+    "email": "pasindu@gmail.com",
+    "password": "pasindu123"
   },
   {
     "id": 2,
-    "name": "Sarah Connor",
-    "email": "sarah@example.com",
-    "password": "securePass!99"
+    "name": "Theekshana Nuwan",
+    "email": "nuwan@gmail.com",
+    "password": "nuwan123"
   },
   {
     "id": 3,
-    "name": "Mike Smith",
-    "email": "mike@example.com",
-    "password": "mike_rocks_2024"
+    "name": "Wasuda Sandaruwan",
+    "email": "wasuda@gmail.com",
+    "password": "wasuda123"
   }
 ]

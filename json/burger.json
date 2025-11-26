@@ -1,0 +1,209 @@
+[
+  {
+    "id": 101,
+    "name": "Classic Cheeseburger",
+    "category": "Beef",
+    "price": 8.99,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Cheddar Cheese", "Lettuce", "Tomato", "House Sauce", "Brioche Bun"],
+    "image_url": "https://example.com/images/burger_101.jpg"
+  },
+  {
+    "id": 102,
+    "name": "Spicy Chicken Crunch",
+    "category": "Chicken",
+    "price": 9.50,
+    "is_available": true,
+    "ingredients": ["Crispy Chicken Breast", "Spicy Mayo", "Pickles", "Coleslaw", "Sesame Bun"],
+    "image_url": "https://example.com/images/burger_102.jpg"
+  },
+  {
+    "id": 103,
+    "name": "The Beyond Veggie",
+    "category": "Vegetarian",
+    "price": 10.99,
+    "is_available": true,
+    "ingredients": ["Plant-based Patty", "Vegan Cheese", "Arugula", "Avocado", "Whole Wheat Bun"],
+    "image_url": "https://example.com/images/burger_103.jpg"
+  },
+  {
+    "id": 104,
+    "name": "Double Bacon Smash",
+    "category": "Beef",
+    "price": 12.99,
+    "is_available": true,
+    "ingredients": ["Double Beef Patty", "Smoked Bacon", "Swiss Cheese", "Caramelized Onions", "BBQ Sauce"],
+    "image_url": "https://example.com/images/burger_104.jpg"
+  },
+  {
+    "id": 105,
+    "name": "Mushroom Swiss Melt",
+    "category": "Beef",
+    "price": 11.25,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Swiss Cheese", "Sautéed Mushrooms", "Garlic Aioli", "Rye Bun"],
+    "image_url": "https://example.com/images/burger_105.jpg"
+  },
+  {
+    "id": 106,
+    "name": "The Greek Lamb",
+    "category": "Lamb",
+    "price": 14.50,
+    "is_available": true,
+    "ingredients": ["Lamb Patty", "Feta Cheese", "Red Onion", "Tzatziki Sauce", "Pita Bread"],
+    "image_url": "https://example.com/images/burger_106.jpg"
+  },
+  {
+    "id": 107,
+    "name": "BBQ Pulled Pork",
+    "category": "Pork",
+    "price": 10.75,
+    "is_available": false,
+    "ingredients": ["Slow-cooked Pulled Pork", "Smoked Gouda", "Jalapeño Coleslaw", "Texas BBQ Sauce"],
+    "image_url": "https://example.com/images/burger_107.jpg"
+  },
+  {
+    "id": 108,
+    "name": "California Turkey",
+    "category": "Poultry",
+    "price": 10.50,
+    "is_available": true,
+    "ingredients": ["Turkey Patty", "Provolone Cheese", "Alfalfa Sprouts", "Avocado Spread", "Whole Wheat Bun"],
+    "image_url": "https://example.com/images/burger_108.jpg"
+  },
+  {
+    "id": 109,
+    "name": "Black Bean Vegan",
+    "category": "Vegan",
+    "price": 9.25,
+    "is_available": true,
+    "ingredients": ["Black Bean Patty", "Pico de Gallo", "Cilantro Lime Vinaigrette", "Unseeded Bun"],
+    "image_url": "https://example.com/images/burger_109.jpg"
+  },
+  {
+    "id": 110,
+    "name": "Jalapeño Popper Burger",
+    "category": "Beef",
+    "price": 13.99,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Cream Cheese", "Crispy Bacon", "Fried Jalapeños", "Chipotle Mayo"],
+    "image_url": "https://example.com/images/burger_110.jpg"
+  },
+  {
+    "id": 111,
+    "name": "Teriyaki Pineapple Chicken",
+    "category": "Chicken",
+    "price": 11.99,
+    "is_available": true,
+    "ingredients": ["Grilled Chicken Breast", "Swiss Cheese", "Grilled Pineapple", "Teriyaki Glaze", "Mayo"],
+    "image_url": "https://example.com/images/burger_111.jpg"
+  },
+  {
+    "id": 112,
+    "name": "The Standard",
+    "category": "Beef",
+    "price": 7.50,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Dill Pickles", "Ketchup", "Yellow Mustard", "Plain Bun"],
+    "image_url": "https://example.com/images/burger_112.jpg"
+  },
+  {
+    "id": 113,
+    "name": "The Truffle Shuffle",
+    "category": "Gourmet",
+    "price": 18.00,
+    "is_available": true,
+    "ingredients": ["Wagyu Beef Patty", "Aged White Cheddar", "Truffle Aioli", "Arugula", "Toasted Ciabatta"],
+    "image_url": "https://example.com/images/burger_113.jpg"
+  },
+  {
+    "id": 114,
+    "name": "Blue Cheese Bliss",
+    "category": "Beef",
+    "price": 12.00,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Blue Cheese Crumbles", "Bacon Jam", "Onion Marmalade", "Pretzel Bun"],
+    "image_url": "https://example.com/images/burger_114.jpg"
+  },
+  {
+    "id": 115,
+    "name": "Southwest Chipotle",
+    "category": "Beef",
+    "price": 11.75,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Pepper Jack Cheese", "Roasted Red Peppers", "Chipotle Mayo", "Spicy Bun"],
+    "image_url": "https://example.com/images/burger_115.jpg"
+  },
+  {
+    "id": 116,
+    "name": "Crispy Fish Filet",
+    "category": "Seafood",
+    "price": 10.50,
+    "is_available": true,
+    "ingredients": ["Crispy Cod Fillet", "Tartar Sauce", "Shredded Lettuce", "American Cheese", "Potato Roll"],
+    "image_url": "https://example.com/images/burger_116.jpg"
+  },
+  {
+    "id": 117,
+    "name": "Garlic Parmesan Chicken",
+    "category": "Chicken",
+    "price": 11.50,
+    "is_available": true,
+    "ingredients": ["Grilled Chicken Breast", "Provolone Cheese", "Garlic Parmesan Sauce", "Spinach", "Artisan Bun"],
+    "image_url": "https://example.com/images/burger_117.jpg"
+  },
+  {
+    "id": 118,
+    "name": "Kids' Mini Burger",
+    "category": "Kids",
+    "price": 5.00,
+    "is_available": true,
+    "ingredients": ["Small Beef Patty", "American Cheese", "Ketchup", "Mini Bun"],
+    "image_url": "https://example.com/images/burger_118.jpg"
+  },
+  {
+    "id": 119,
+    "name": "Pesto Provolone",
+    "category": "Chicken",
+    "price": 12.50,
+    "is_available": true,
+    "ingredients": ["Grilled Chicken Breast", "Provolone", "Basil Pesto", "Roasted Tomatoes", "Focaccia Bun"],
+    "image_url": "https://example.com/images/burger_119.jpg"
+  },
+  {
+    "id": 120,
+    "name": "The Hangover Cure",
+    "category": "Breakfast",
+    "price": 13.00,
+    "is_available": true,
+    "ingredients": ["Beef Patty", "Fried Egg", "Hash Brown", "Bacon", "Sriracha Ketchup"],
+    "image_url": "https://example.com/images/burger_120.jpg"
+  },
+  {
+    "id": 121,
+    "name": "Spicy Sriracha Tofu",
+    "category": "Vegan",
+    "price": 10.99,
+    "is_available": true,
+    "ingredients": ["Fried Tofu Patty", "Sriracha Glaze", "Pickled Carrots", "Cabbage Slaw", "Vegan Mayo"],
+    "image_url": "https://example.com/images/burger_121.jpg"
+  },
+  {
+    "id": 122,
+    "name": "Hawaiian Luau",
+    "category": "Pork",
+    "price": 13.50,
+    "is_available": true,
+    "ingredients": ["Pork Patty", "Black Forest Ham", "Grilled Pineapple Ring", "Hawaiian Roll", "Mayo"],
+    "image_url": "https://example.com/images/burger_122.jpg"
+  },
+  {
+    "id": 123,
+    "name": "Ghost Pepper Challenge",
+    "category": "Extreme",
+    "price": 15.99,
+    "is_available": false,
+    "ingredients": ["Double Beef Patty", "Ghost Pepper Cheese", "Habañero Salsa", "Chili Flakes", "Warning Label"],
+    "image_url": "https://example.com/images/burger_123.jpg"
+  }
+]

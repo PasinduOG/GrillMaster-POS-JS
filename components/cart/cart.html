@@ -1,0 +1,146 @@
+<div class="bg-warning text-dark py-4 mt-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-0">Shopping Cart</h1>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center mb-3 mb-md-0">
+                            <div class="bg-secondary rounded"
+                                style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <span class="fs-1">🍔</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <h5 class="fw-bold mb-1">Classic Burger</h5>
+                            <p class="text-muted small mb-0">Beef patty, lettuce, tomato</p>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="input-group input-group-sm">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input type="text" class="form-control text-center" value="2" readonly>
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0 text-center">
+                            <span class="fw-bold text-warning">$17.98</span>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center mb-3 mb-md-0">
+                            <div class="bg-secondary rounded"
+                                style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <span class="fs-1">🍔</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <h5 class="fw-bold mb-1">Cheese Deluxe</h5>
+                            <p class="text-muted small mb-0">Double beef, cheddar, bacon</p>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="input-group input-group-sm">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input type="text" class="form-control text-center" value="1" readonly>
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0 text-center">
+                            <span class="fw-bold text-warning">$12.99</span>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center mb-3 mb-md-0">
+                            <div class="bg-secondary rounded"
+                                style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                <span class="fs-1">🍟</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <h5 class="fw-bold mb-1">French Fries</h5>
+                            <p class="text-muted small mb-0">Crispy golden fries</p>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="input-group input-group-sm">
+                                <button class="btn btn-outline-secondary" type="button">-</button>
+                                <input type="text" class="form-control text-center" value="2" readonly>
+                                <button class="btn btn-outline-secondary" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0 text-center">
+                            <span class="fw-bold text-warning">$7.98</span>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="shop.html" class="btn btn-outline-dark">Continue Shopping</a>
+                <button class="btn btn-outline-danger">Clear Cart</button>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm sticky-top" style="top: 90px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Order Summary</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal (5 items)</span>
+                        <span class="fw-bold">$38.95</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Delivery Fee</span>
+                        <span class="fw-bold">$3.99</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tax</span>
+                        <span class="fw-bold">$3.43</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="h5 fw-bold">Total</span>
+                        <span class="h5 fw-bold text-warning">$46.37</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="coupon" class="form-label">Promo Code</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="coupon" placeholder="Enter code">
+                            <button class="btn btn-outline-secondary" type="button">Apply</button>
+                        </div>
+                    </div>
+
+                    <a href="place_order.html" class="btn btn-warning w-100 btn-lg">Proceed to Checkout</a>
+
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <h6 class="fw-bold mb-2">🚚 Delivery Information</h6>
+                        <p class="small text-muted mb-0">Estimated delivery: 30-45 minutes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

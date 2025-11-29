@@ -19,7 +19,7 @@ fetch("components/navbar/navbar.html")
         posNav = document.getElementById("posNav");
         loginNav = document.getElementById("loginNav");
         logOutNav = document.getElementById("logOutNav");
-
+        setUserName();
         updateNav();
     });
 
@@ -49,10 +49,12 @@ function updateNav() {
 }
 
 function setUserName() {
-    let userName = document.getElementById("userId");
-    let userIdLabel = document.getElementById("userIdLabel");
+    const userName = document.getElementById("userId");
+    const userIdLabel = document.getElementById("userIdLabel");
 
-    if (customerData.length != 0) {
+    if (!userName || !userIdLabel) return;
+
+    if (customerData.length > 0 && customerData[0]?.name) {
         userName.innerText = customerData[0].name;
         userIdLabel.classList.remove("d-none");
     } else {
@@ -72,10 +74,10 @@ function loadComponent(name, callback) {
             });
 
             if (name == "home") {
-                setUserName();
                 fetchBurgers();
                 fetchFries();
                 fetchDrinks();
+                setUserName();
             } else if (name == "pos") {
                 fetchItems();
                 renderOrderList();

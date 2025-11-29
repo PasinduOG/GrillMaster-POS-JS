@@ -12,7 +12,7 @@ let posNav;
 let loginNav;
 let logOutNav;
 
-fetch("components/navbar/navbar.html")
+fetch("/components/navbar/navbar.html")
     .then(res => res.text())
     .then(html => {
         document.getElementById("header").innerHTML = html;
@@ -23,7 +23,7 @@ fetch("components/navbar/navbar.html")
         updateNav();
     });
 
-fetch("components/footer/footer.html")
+fetch("/components/footer/footer.html")
     .then(res => res.text())
     .then(html => document.getElementById("footer").innerHTML = html);
 
@@ -49,7 +49,7 @@ function updateNav() {
 }
 
 function loadComponent(name, callback) {
-    fetch(`components/${name}/${name}.html`)
+    fetch(`/components/${name}/${name}.html`)
         .then(res => res.text())
         .then(html => {
             root.innerHTML = html;
@@ -104,7 +104,7 @@ function checkLogin() {
     let spinner = document.getElementById("loginSpinner");
     spinner.classList.remove("d-none");
 
-    fetch("../json/customer.json")
+    fetch("/json/customer.json")
         .then(res => res.json())
         .then(data => {
             const loggedCustomer = data.find(customer => customer.email == email && customer.password == password);

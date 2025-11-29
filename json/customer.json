@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Pasindu Madhuwantha",
+    "email": "pasindu@gmail.com",
+    "password": "pasindu123"
+  },
+  {
+    "id": 2,
+    "name": "Theekshana Nuwan",
+    "email": "nuwan@gmail.com",
+    "password": "nuwan123"
+  },
+  {
+    "id": 3,
+    "name": "Wasuda Sandaruwan",
+    "email": "wasuda@gmail.com",
+    "password": "wasuda123"
+  }
+]

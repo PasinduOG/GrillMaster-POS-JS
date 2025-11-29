@@ -1,4 +1,4 @@
-import { renderOrderList } from "./app.js";
+import { loadNewOrder, renderOrderList } from "./app.js";
 import fetchBurgers from "./fetchBurgers.js";
 import fetchDrinks from "./fetchDrinks.js";
 import fetchFries from "./fetchFries.js";
@@ -6,13 +6,7 @@ import fetchItems from "./fetchItems.js";
 
 const root = document.getElementById("root");
 
-let customerData = [];
-let customerSession = localStorage.getItem("loggedInCustomer");
-
-if (customerSession != null) {
-    const customerString = JSON.parse(customerSession);
-    customerData.push(customerString);
-}
+let customerData = JSON.parse(localStorage.getItem("loggedInCustomer")) || [];
 
 let posNav;
 let loginNav;
@@ -54,7 +48,7 @@ function updateNav() {
     }
 }
 
-function loadComponent(name) {
+function loadComponent(name, callback) {
     fetch(`components/${name}/${name}.html`)
         .then(res => res.text())
         .then(html => {
@@ -71,16 +65,34 @@ function loadComponent(name) {
             } else if (name == "pos") {
                 fetchItems();
                 renderOrderList();
+                loadNewOrder();
+            } else if (name == "invoice") {
+                document.getElementById("header").style.display = "none";
+                document.getElementById("footer").style.display = "none";
             }
+
             let userName = document.getElementById("userId");
             let userIdLabel = document.getElementById("userIdLabel");
-            if (customerData.length != 0) {
-                userName.innerText = customerData[0].name;
-                userIdLabel.classList.remove("d-none");
-            } else {
-                userIdLabel.classList.add("d-none");
+
+            if (userName && userIdLabel) {
+                if (customerData.length != 0) {
+                    userName.innerText = customerData.name;
+                    userIdLabel.classList.remove("d-none");
+                } else {
+                    userIdLabel.classList.add("d-none");
+                }
+            }
+
+            if (callback) {
+                setTimeout(() => callback(), 10);
             }
         });
+}
+
+function goBack(name) {
+    document.getElementById("header").style.display = "block";
+    document.getElementById("footer").style.display = "block";
+    loadComponent(name);
 }
 
 function checkLogin() {
@@ -132,7 +144,7 @@ function logOut() {
             }).then((result) => {
                 if (result.isConfirmed) {
                     localStorage.removeItem('loggedInCustomer');
-                    customerData = [];
+                    customerData.length = 0;
                     updateNav();
                     loadComponent("login");
                 }
@@ -143,8 +155,121 @@ function logOut() {
 
 window.loadComponent = loadComponent;
 loadComponent("home");
-
 window.logToPos = logToPos;
-
 window.checkLogin = checkLogin;
 window.logOut = logOut;
+window.goBack = goBack;
+
+export function generateInvoice(order, arr) {
+    loadComponent("invoice", () => {
+        let invoiceContainer = `
+<div id="printArea">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h1 class="display-4 text-danger fw-bold">GrillMaster</h1>
+                            <p class="text-muted mb-0">Galle Rd</p>
+                            <p class="text-muted mb-0">Panadura, Kalutara</p>
+                            <p class="text-muted mb-0">Phone: +94 71 243 6642</p>
+                            <p class="text-muted">Email: info@grillmaster.com</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <h2 class="text-uppercase text-secondary">Invoice</h2>
+                            <p class="mb-1"><strong>Invoice #:</strong> INV-2025-${order.orderId}</p>
+                            <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
+                            <p class="mb-1"><strong>Order #:</strong> ORD-${order.orderId}</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5 class="text-uppercase text-secondary mb-3">Bill To:</h5>
+                            <p class="mb-1"><strong>${order.customer.name}</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-uppercase text-secondary mb-3">Payment Method:</h5>
+                            <p class="mb-1">Cash</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col" class="text-end">Unit Price (LKR)</th>
+                                    <th scope="col" class="text-end">Total (LKR)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceItems">`;
+
+        arr.forEach(item => {
+            invoiceContainer += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td class="text-center">${item.quantity}</td>
+                        <td class="text-end">${item.price.toFixed(2)}</td>
+                        <td class="text-end">${(item.quantity * item.price).toFixed(2)}</td>
+                    </tr>
+                `;
+        });
+
+        invoiceContainer += `</tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 ms-auto">
+                            <table class="table table-borderless">
+                                <tr class="border-top">
+                                    <td class="text-end">
+                                        <h5 class="mb-0"><strong>Total:</strong></h5>
+                                    </td>
+                                    <td class="text-end">
+                                        <h5 class="mb-0 text-danger"><strong>LKR ${order.total}</strong></h5>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted mb-2">Thank you for your order!</p>
+                <p class="text-muted small mb-4">For any questions about this invoice, please contact us at
+                    info@burgershop.com</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-danger" onclick="printInvoice()">
+                        <i class="bi bi-printer"></i> Print Invoice
+                    </button>
+                    <button class="btn btn-outline-secondary">
+                        Download PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-link text-decoration-none" onclick="goBack('home')">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+        `;
+
+        document.getElementById("invoiceContainer").innerHTML = invoiceContainer;
+    });
+}
+
+window.printInvoice = function () {
+    window.print();
+};

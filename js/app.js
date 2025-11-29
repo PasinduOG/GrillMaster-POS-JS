@@ -1,8 +1,43 @@
 import { allItemArray } from "./fetchItems.js";
+import { generateInvoice } from "./index.js";
 
 const orderList = JSON.parse(localStorage.getItem("orders")) || [];
+const processedOrder = JSON.parse(localStorage.getItem("checkoutOrders")) || [];
+let totalAmount;
 
-let customerDetails;
+function generateOrderId() {
+    let lastId = localStorage.getItem("lastOrderId");
+    lastId = lastId ? parseInt(lastId) : 0;
+    const newId = lastId + 1;
+    localStorage.setItem("lastOrderId", newId);
+    return String(newId).padStart(3, "0");
+}
+
+export function loadNewOrder() {
+    let activeOrderId = localStorage.getItem("activeOrderId");
+    if (!activeOrderId) {
+        activeOrderId = generateOrderId();
+        localStorage.setItem("activeOrderId", activeOrderId);
+    }
+
+    const generatedOrderId = "#" + activeOrderId;
+    document.getElementById("orderIdLabel").innerText = generatedOrderId;
+}
+
+function getActiveOrderId() {
+    let activeOrderId = localStorage.getItem("activeOrderId");
+    if (!activeOrderId) {
+        activeOrderId = generateOrderId();
+        localStorage.setItem("activeOrderId", activeOrderId);
+    }
+    return activeOrderId;
+}
+
+function updateOrderIdLabel() {
+    const orderIdLabel = document.getElementById("orderIdLabel");
+    const activeOrderId = getActiveOrderId();
+    orderIdLabel.innerText = "#" + activeOrderId;
+}
 
 function selectItem(id) {
     const itemId = parseInt(id);
@@ -10,6 +45,8 @@ function selectItem(id) {
 
     const productDetails = itemList.find(product => product.id === itemId);
     const existingItem = orderList.find(product => product.id === itemId);
+
+    const customerName = document.getElementById("customerName").value || "user";
 
     if (existingItem) {
         existingItem.quantity += 1;
@@ -26,6 +63,7 @@ function selectItem(id) {
         orderList.push(order);
         saveOrders();
         calculateTotal();
+        console.log(customerName);
     }
 
     renderOrderList();
@@ -40,6 +78,12 @@ export function renderOrderList() {
     let container = document.getElementById("orderItemContainer");
     let grandTotal = 0;
     let card = '';
+
+    if (orderList.length == 0) {
+        document.getElementById("checkoutBtn").classList.add("disabled");
+    } else {
+        document.getElementById("checkoutBtn").classList.remove("disabled");
+    }
 
     orderList.forEach(item => {
         const itemTotal = item.price * item.quantity;
@@ -104,11 +148,21 @@ function removeItem(id) {
 
     if (index != -1) {
         orderList.splice(index, 1);
+        document.getElementById("checkoutBtn").classList.add("disabled");
         saveOrders();
         renderOrderList();
         calculateTotal();
     }
 }
+
+function clearOrder() {
+    orderList.length = 0;
+    localStorage.removeItem("orders");
+    document.getElementById("checkoutBtn").classList.add("disabled");
+    renderOrderList();
+    calculateTotal();
+}
+
 
 function calculateTotal() {
     let total = 0;
@@ -129,27 +183,79 @@ function calculateTotal() {
     totalLabel.innerText = "LKR " + total.toFixed(2);
     chargeLabel.innerText = "LKR " + total.toFixed(2);
     checkoutPrice.innerText = "LKR " + total.toFixed(2);
+    totalAmount = total;
     return total;
 }
 
 function saveCustomerDetails() {
     let customerName = document.getElementById("customerName").value;
     let customerPhone = document.getElementById("customerPhone").value;
-    let customerEmail = document.getElementById("customerEmail").value;
 
     const customerData = {
-        name: customerName,
-        phone: customerPhone,
-        email: customerEmail
+        name: customerName || "user",
+        phone: customerPhone || ""
     };
     let customer = document.getElementById("customerNameLabel");
-    customer.innerHTML = customerData.name;
+    let checkoutCustomer = document.getElementById("checkoutUserName");
 
-    customerDetails = customerData;
+    customer.innerHTML = customerData.name;
+    checkoutCustomer.innerText = customerData.name;
+    return customerData;
+}
+
+function checkoutOrder() {
+    const customer = saveCustomerDetails();
+    const amount = Number(document.getElementById("amountReceived").value);
+
+    if (amount < totalAmount) {
+        Swal.fire({
+            title: "Checkout Failed!",
+            text: "Insufficient Amount!",
+            icon: "error"
+        });
+        return;
+    }
+    const orderId = getActiveOrderId();
+
+    const order = {
+        orderId: orderId,
+        customer: customer,
+        items: [...orderList],
+        total: totalAmount,
+        received: amount,
+        change: amount - totalAmount,
+        date: new Date().toLocaleString()
+    }
+
+    processedOrder.push(order);
+
+    localStorage.setItem("checkoutOrders", JSON.stringify(processedOrder));
+    Swal.fire({
+        title: "Payment Successful!",
+        text: `Order ID: ${orderId}\nChange: LKR ${(amount - totalAmount).toFixed(2)}`,
+        icon: "success"
+    });
+
+    const paymentModal = document.getElementById("paymentModal");
+    const modal = bootstrap.Modal.getInstance(paymentModal);
+    if (modal) modal.hide();
+
+    const tempOrderList = [...orderList];
+    const tempOrder = order;
+
+    clearOrder();
+    localStorage.removeItem("activeOrderId");
+    
+    const newOrderId = generateOrderId();
+    localStorage.setItem("activeOrderId", newOrderId);
+    updateOrderIdLabel();
+    generateInvoice(tempOrder, tempOrderList);
 }
 
 window.selectItem = selectItem;
 window.updateQuantity = updateQuantity;
 window.removeItem = removeItem;
+window.clearOrder = clearOrder;
 window.calculateTotal = calculateTotal;
 window.saveCustomerDetails = saveCustomerDetails;
+window.checkoutOrder = checkoutOrder;

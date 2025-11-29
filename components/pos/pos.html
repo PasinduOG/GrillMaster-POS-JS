@@ -13,13 +13,13 @@
 
         <div class="col-lg-4" data-aos="fade-up">
             <div class="card shadow-lg">
-           
+
                 <div class="card-body">
                     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                         <h5 class="mb-0 fw-bold">Current Order</h5>
-                        <span class="badge bg-warning text-dark fs-6">Order #1234</span>
+                        <span class="badge bg-warning text-dark fs-6">Order <span id="orderIdLabel"></span></span>
                     </div>
-    
+
                     <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
                         <div class="list-group list-group-flush border-bottom" id="orderItemContainer"></div>
                     </div>
@@ -44,15 +44,15 @@
                             </button>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-danger w-100">
+                            <button class="btn btn-danger w-100" onclick="clearOrder()">
                                 <i class="fas fa-trash-alt me-1"></i> Clear Order
                             </button>
                         </div>
                     </div>
 
-                    <button class="btn btn-warning w-100 btn-lg fw-bold shadow" data-bs-toggle="modal"
-                        data-bs-target="#paymentModal">
-                        <i class="fas fa-credit-card me-2"></i> CHARGE LKR <span id="chargePrice">0.00</span>
+                    <button class="btn btn-warning w-100 btn-lg fw-bold shadow disabled" id="checkoutBtn"
+                        data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        <i class="fa fa-money"></i> CHARGE <span id="chargePrice">LKR 0.00</span>
                     </button>
                 </div>
 
@@ -66,7 +66,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title">Process Payment</h5>
+                <h5 class="modal-title">Process Payment of <span id="checkoutUserName">user</span></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -78,13 +78,10 @@
                     <label for="amountReceived" class="form-label fw-bold">Amount Received (Cash)</label>
                     <input type="number" class="form-control form-control-lg" id="amountReceived" placeholder="0.00">
                 </div>
-                <div class="alert alert-success mb-0">
-                    <strong>Change Due: $0.00</strong>
-                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-warning btn-lg px-5">Complete Payment</button>
+                <button type="button" class="btn btn-warning btn-lg px-5" onclick="checkoutOrder()">Complete
+                    Payment</button>
             </div>
         </div>
     </div>
@@ -106,14 +103,11 @@
                     <label for="customerPhone" class="form-label">Phone</label>
                     <input type="tel" class="form-control" id="customerPhone" placeholder="071 234 5678">
                 </div>
-                <div class="mb-3">
-                    <label for="customerEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="customerEmail" placeholder="saman@gmail.com">
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="saveCustomerDetails()">Save Customer</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    onclick="saveCustomerDetails()">Save Customer</button>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ import fetchItems from "./fetchItems.js";
 
 const root = document.getElementById("root");
 
-let customerData = JSON.parse(localStorage.getItem("loggedInCustomer")) || [];
+const customerData = JSON.parse(localStorage.getItem("loggedInCustomer")) || [];
 
 let posNav;
 let loginNav;
@@ -52,13 +52,11 @@ function setUserName() {
     let userName = document.getElementById("userId");
     let userIdLabel = document.getElementById("userIdLabel");
 
-    if (userName && userIdLabel) {
-        if (customerData.length != 0) {
-            userName.innerText = customerData[0].name;
-            userIdLabel.classList.remove("d-none");
-        } else {
-            userIdLabel.classList.add("d-none");
-        }
+    if (customerData.length != 0) {
+        userName.innerText = customerData[0].name;
+        userIdLabel.classList.remove("d-none");
+    } else {
+        userIdLabel.classList.add("d-none");
     }
 }
 
@@ -119,8 +117,8 @@ function checkLogin() {
                     name: loggedCustomer.name,
                     email: loggedCustomer.email
                 };
-                localStorage.setItem("loggedInCustomer", JSON.stringify(verifiedUser));
-                customerData = [verifiedUser];
+                customerData.push(verifiedUser);
+                localStorage.setItem("loggedInCustomer", JSON.stringify(customerData));
                 updateNav();
                 loadComponent('home');
             } else {

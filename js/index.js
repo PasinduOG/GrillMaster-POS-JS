@@ -1,20 +1,29 @@
-const root = document.getElementById("root");
-let customerData = [];
+import { renderOrderList } from "./app.js";
+import fetchBurgers from "./fetchBurgers.js";
+import fetchDrinks from "./fetchDrinks.js";
+import fetchFries from "./fetchFries.js";
+import fetchItems from "./fetchItems.js";
 
-let shopNav;
-let cartNav;
+const root = document.getElementById("root");
+
+let customerData = [];
+let customerSession = localStorage.getItem("loggedInCustomer");
+
+if (customerSession != null) {
+    const customerString = JSON.parse(customerSession);
+    customerData.push(customerString);
+}
+
+let posNav;
 let loginNav;
-let registerNav;
 let logOutNav;
 
 fetch("components/navbar/navbar.html")
     .then(res => res.text())
     .then(html => {
         document.getElementById("header").innerHTML = html;
-        shopNav = document.getElementById("shopNav");
-        cartNav = document.getElementById("cartNav");
+        posNav = document.getElementById("posNav");
         loginNav = document.getElementById("loginNav");
-        registerNav = document.getElementById("registerNav");
         logOutNav = document.getElementById("logOutNav");
 
         updateNav();
@@ -24,18 +33,22 @@ fetch("components/footer/footer.html")
     .then(res => res.text())
     .then(html => document.getElementById("footer").innerHTML = html);
 
+function logToPos() {
+    if (customerData.length == 0) {
+        loadComponent("login");
+        return;
+    }
+    loadComponent("pos");
+}
+
 function updateNav() {
     if (customerData.length === 0) {
-        shopNav.classList.add("d-none");
-        cartNav.classList.add("d-none");
+        posNav.classList.add("d-none");
         loginNav.classList.remove("d-none");
-        registerNav.classList.remove("d-none");
         logOutNav.classList.add("d-none");
     } else {
-        shopNav.classList.remove("d-none");
-        cartNav.classList.remove("d-none");
+        posNav.classList.remove("d-none");
         loginNav.classList.add("d-none");
-        registerNav.classList.add("d-none");
         logOutNav.classList.remove("d-none");
 
     }
@@ -46,6 +59,19 @@ function loadComponent(name) {
         .then(res => res.text())
         .then(html => {
             root.innerHTML = html;
+
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+
+            if (name == "home") {
+                fetchBurgers();
+                fetchFries();
+                fetchDrinks();
+            } else if (name == "pos") {
+                fetchItems();
+                renderOrderList();
+            }
             let userName = document.getElementById("userId");
             let userIdLabel = document.getElementById("userIdLabel");
             if (customerData.length != 0) {
@@ -67,20 +93,25 @@ function checkLogin() {
     fetch("../json/customer.json")
         .then(res => res.json())
         .then(data => {
-            data.forEach(customer => {
-                if (customer.email == email && customer.password == password) {
-                    spinner.classList.add("d-none");
-                    customerData.push(customer);
-                    updateNav();
-                    loadComponent('home');
-                } else {
-                    spinner.classList.add("d-none");
-                    document.getElementById("alertMessage").classList.remove("d-none");
-                    setTimeout(() => {
-                        document.getElementById("alertMessage").classList.add("d-none");
-                    }, 3000);
-                }
-            });
+            const loggedCustomer = data.find(customer => customer.email == email && customer.password == password);
+            spinner.classList.add("d-none");
+            if (loggedCustomer) {
+                const verifiedUser = {
+                    id: loggedCustomer.id,
+                    name: loggedCustomer.name,
+                    email: loggedCustomer.email
+                };
+                localStorage.setItem("loggedInCustomer", JSON.stringify(verifiedUser));
+                customerData = [verifiedUser];
+                updateNav();
+                loadComponent('home');
+            } else {
+                spinner.classList.add("d-none");
+                document.getElementById("alertMessage").classList.remove("d-none");
+                setTimeout(() => {
+                    document.getElementById("alertMessage").classList.add("d-none");
+                }, 3000);
+            }
         });
 }
 
@@ -100,6 +131,7 @@ function logOut() {
                 icon: "success"
             }).then((result) => {
                 if (result.isConfirmed) {
+                    localStorage.removeItem('loggedInCustomer');
                     customerData = [];
                     updateNav();
                     loadComponent("login");
@@ -111,6 +143,8 @@ function logOut() {
 
 window.loadComponent = loadComponent;
 loadComponent("home");
+
+window.logToPos = logToPos;
 
 window.checkLogin = checkLogin;
 window.logOut = logOut;

@@ -1,0 +1,120 @@
+<div class="container-fluid p-3 py-4 my-5">
+    <div class="row g-3">
+        <div class="col-lg-8" data-aos="fade-down">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-3">
+
+                    <div class="row g-3" id="posBurgerContainer"></div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4" data-aos="fade-up">
+            <div class="card shadow-lg">
+           
+                <div class="card-body">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">Current Order</h5>
+                        <span class="badge bg-warning text-dark fs-6">Order #1234</span>
+                    </div>
+    
+                    <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
+                        <div class="list-group list-group-flush border-bottom" id="orderItemContainer"></div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="mb-0 fw-bold">Customer:</p>
+                        <p class="mb-0 text-danger fw-bolder" id="customerNameLabel">User</p>
+                    </div>
+                    <hr class="my-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0 fw-bold">TOTAL:</h4>
+                        <h3 class="mb-0 text-warning fw-bolder" id="totalPrice">LKR 0.00</h3>
+                    </div>
+                    <hr class="my-2">
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <button class="btn btn-secondary w-100" data-bs-toggle="modal"
+                                data-bs-target="#customerModal">
+                                <i class="fas fa-user me-1"></i> Customer
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-danger w-100">
+                                <i class="fas fa-trash-alt me-1"></i> Clear Order
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-warning w-100 btn-lg fw-bold shadow" data-bs-toggle="modal"
+                        data-bs-target="#paymentModal">
+                        <i class="fas fa-credit-card me-2"></i> CHARGE LKR <span id="chargePrice">0.00</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="paymentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Process Payment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <h2 class="display-4 fw-bold text-warning" id="checkoutPrice">LKR 0.00</h2>
+                    <p class="text-muted">Total Amount Due</p>
+                </div>
+                <div class="mb-3">
+                    <label for="amountReceived" class="form-label fw-bold">Amount Received (Cash)</label>
+                    <input type="number" class="form-control form-control-lg" id="amountReceived" placeholder="0.00">
+                </div>
+                <div class="alert alert-success mb-0">
+                    <strong>Change Due: $0.00</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-warning btn-lg px-5">Complete Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="customerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">Customer Information</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="Saman Kumara">
+                </div>
+                <div class="mb-3">
+                    <label for="customerPhone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="customerPhone" placeholder="071 234 5678">
+                </div>
+                <div class="mb-3">
+                    <label for="customerEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="customerEmail" placeholder="saman@gmail.com">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="saveCustomerDetails()">Save Customer</button>
+            </div>
+        </div>
+    </div>
+</div>

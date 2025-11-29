@@ -234,6 +234,15 @@ function saveCustomerDetails() {
     let customerName = document.getElementById("customerName").value;
     let customerPhone = document.getElementById("customerPhone").value;
 
+    if (!(customerPhone.startsWith("0") && customerPhone.length === 10)) {
+        Swal.fire({
+            title: "Error!",
+            text: "This phone number is not valid",
+            icon: "error"
+        });
+        return null;
+    }
+
     let customerData;
 
     if (customerName.value == "" && customerPhone.value == "") {

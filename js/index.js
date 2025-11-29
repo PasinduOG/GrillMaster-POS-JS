@@ -14,8 +14,8 @@ let logOutNav;
 
 fetch("components/navbar/navbar.html")
     .then(res => res.text())
-    .then(html => {
-        document.getElementById("header").innerHTML = html;
+    .then(component => {
+        document.getElementById("header").innerHTML = component;
         posNav = document.getElementById("posNav");
         loginNav = document.getElementById("loginNav");
         logOutNav = document.getElementById("logOutNav");
@@ -25,7 +25,7 @@ fetch("components/navbar/navbar.html")
 
 fetch("components/footer/footer.html")
     .then(res => res.text())
-    .then(html => document.getElementById("footer").innerHTML = html);
+    .then(component => document.getElementById("footer").innerHTML = component);
 
 function logToPos() {
     if (customerData.length == 0) {
@@ -48,17 +48,33 @@ function updateNav() {
     }
 }
 
+function setUserName() {
+    let userName = document.getElementById("userId");
+    let userIdLabel = document.getElementById("userIdLabel");
+
+    if (userName && userIdLabel) {
+        if (customerData.length != 0) {
+            userName.innerText = customerData[0].name;
+            userIdLabel.classList.remove("d-none");
+        } else {
+            userIdLabel.classList.add("d-none");
+        }
+    }
+}
+
+
 function loadComponent(name, callback) {
     fetch(`components/${name}/${name}.html`)
         .then(res => res.text())
-        .then(html => {
-            root.innerHTML = html;
+        .then(component => {
+            root.innerHTML = component;
 
             requestAnimationFrame(() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
             });
 
             if (name == "home") {
+                setUserName();
                 fetchBurgers();
                 fetchFries();
                 fetchDrinks();
@@ -71,18 +87,6 @@ function loadComponent(name, callback) {
             } else if (name == "invoice") {
                 document.getElementById("header").style.display = "none";
                 document.getElementById("footer").style.display = "none";
-            }
-
-            let userName = document.getElementById("userId");
-            let userIdLabel = document.getElementById("userIdLabel");
-
-            if (userName && userIdLabel) {
-                if (customerData.length != 0) {
-                    userName.innerText = customerData.name;
-                    userIdLabel.classList.remove("d-none");
-                } else {
-                    userIdLabel.classList.add("d-none");
-                }
             }
 
             if (callback) {
@@ -211,10 +215,10 @@ export function generateInvoice(order, arr) {
                                         </thead>
                                         <tbody id="invoiceItems">`;
 
-                    arr.forEach(item => {
-                        const total = item.quantity * item.price;
-                        
-                        invoiceContainer += `
+        arr.forEach(item => {
+            const total = item.quantity * item.price;
+
+            invoiceContainer += `
                                 <tr>
                                     <td>${item.name}</td>
                                     <td class="text-center">${item.quantity}</td>
@@ -222,9 +226,9 @@ export function generateInvoice(order, arr) {
                                     <td class="text-end">${total.toFixed(2)}</td>
                                 </tr>
                             `;
-                    });
+        });
 
-                    invoiceContainer += `</tbody>
+        invoiceContainer += `</tbody>
                                     </table>
                                 </div>
 

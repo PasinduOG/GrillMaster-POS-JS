@@ -213,6 +213,7 @@ function selectExistingCustomer(event) {
     if (selectedPhone === "") {
         document.getElementById("customerName").value = "";
         document.getElementById("customerPhone").value = "";
+        document.getElementById("submitButton").classList.add("disabled");
         return;
     }
 
@@ -225,6 +226,7 @@ function selectExistingCustomer(event) {
         document.getElementById("customerPhone").value = selectedCustomer.phone;
         document.getElementById("customerNameLabel").innerText = selectedCustomer.name;
         document.getElementById("checkoutUserName").innerText = selectedCustomer.name;
+        document.getElementById("submitButton").classList.remove("disabled");
     }
 }
 

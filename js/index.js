@@ -165,105 +165,112 @@ window.goBack = goBack;
 export function generateInvoice(order, arr) {
     loadComponent("invoice", () => {
         let invoiceContainer = `
-<div id="printArea">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h1 class="display-4 text-danger fw-bold">GrillMaster</h1>
-                            <p class="text-muted mb-0">Galle Rd</p>
-                            <p class="text-muted mb-0">Panadura, Kalutara</p>
-                            <p class="text-muted mb-0">Phone: +94 71 243 6642</p>
-                            <p class="text-muted">Email: info@grillmaster.com</p>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <h2 class="text-uppercase text-secondary">Invoice</h2>
-                            <p class="mb-1"><strong>Invoice #:</strong> INV-2025-${order.orderId}</p>
-                            <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
-                            <p class="mb-1"><strong>Order #:</strong> ORD-${order.orderId}</p>
-                        </div>
-                    </div>
+            <div id="printArea">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card shadow">
+                            <div class="card-body p-5">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h1 class="display-4 text-danger fw-bold">GrillMaster</h1>
+                                        <p class="text-muted mb-0">Galle Rd</p>
+                                        <p class="text-muted mb-0">Panadura, Kalutara</p>
+                                        <p class="text-muted mb-0">Phone: +94 71 243 6642</p>
+                                        <p class="text-muted">Email: info@grillmaster.com</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <h2 class="text-uppercase text-secondary">Invoice</h2>
+                                        <p class="mb-1"><strong>Invoice #:</strong> INV-2025-${order.orderId}</p>
+                                        <p class="mb-1"><strong>Date:</strong> ${order.date}</p>
+                                        <p class="mb-1"><strong>Order #:</strong> ORD-${order.orderId}</p>
+                                    </div>
+                                </div>
 
-                    <hr class="my-4">
+                                <hr class="my-4">
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5 class="text-uppercase text-secondary mb-3">Bill To:</h5>
-                            <p class="mb-1"><strong>${order.customer.name}</strong></p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="text-uppercase text-secondary mb-3">Payment Method:</h5>
-                            <p class="mb-1">Cash</p>
-                        </div>
-                    </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h5 class="text-uppercase text-secondary mb-3">Bill To:</h5>
+                                        <p class="mb-1"><strong>${order.customer.name}</strong></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="text-uppercase text-secondary mb-3">Payment Method:</h5>
+                                        <p class="mb-1">Cash</p>
+                                    </div>
+                                </div>
 
-                    <div class="table-responsive mb-4">
-                        <table class="table table-hover">
-                            <thead class="table-danger">
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-hover">
+                                        <thead class="table-danger">
+                                            <tr>
+                                                <th scope="col">Item</th>
+                                                <th scope="col" class="text-center">Quantity</th>
+                                                <th scope="col" class="text-end">Unit Price (LKR)</th>
+                                                <th scope="col" class="text-end">Total (LKR)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoiceItems">`;
+
+                    arr.forEach(item => {
+                        const total = item.quantity * item.price;
+                        
+                        invoiceContainer += `
                                 <tr>
-                                    <th scope="col">Item</th>
-                                    <th scope="col" class="text-center">Quantity</th>
-                                    <th scope="col" class="text-end">Unit Price (LKR)</th>
-                                    <th scope="col" class="text-end">Total (LKR)</th>
+                                    <td>${item.name}</td>
+                                    <td class="text-center">${item.quantity}</td>
+                                    <td class="text-end">${item.price.toFixed(2)}</td>
+                                    <td class="text-end">${total.toFixed(2)}</td>
                                 </tr>
-                            </thead>
-                            <tbody id="invoiceItems">`;
+                            `;
+                    });
 
-        arr.forEach(item => {
-            const total = item.quantity * item.price;
-            invoiceContainer += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td class="text-center">${item.quantity}</td>
-                        <td class="text-end">${item.price.toFixed(2)}</td>
-                        <td class="text-end">${total.toFixed(2)}</td>
-                    </tr>
-                `;
-        });
+                    invoiceContainer += `</tbody>
+                                    </table>
+                                </div>
 
-        invoiceContainer += `</tbody>
-                        </table>
-                    </div>
+                                <div class="row">
+                                    <div class="col-md-6 ms-auto">
+                                        <table class="table table-borderless">
+                                            <tr class="border-top">
+                                                <td class="text-end">
+                                                    <h2 class="mb-0"><strong>Total:</strong></h2>
+                                                    <hr class="my-3"/>
+                                                    <h6 class="mb-0 text-secondary"><strong>Received:</strong></h6>
+                                                    <h6 class="mb-0 text-secondary"><strong>Change:</strong></h6>
+                                                </td>
+                                                <td class="text-end">
+                                                    <h2 class="mb-0 text-danger"><strong>LKR ${order.total}</strong></h2>
+                                                    <hr class="my-3"/>
+                                                    <h6 class="mb-0 text-danger"><strong>LKR ${order.received}</strong></h6>
+                                                    <h6 class="mb-0 text-danger"><strong>LKR ${order.change.toFixed(2)}</strong></h6>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
 
-                    <div class="row">
-                        <div class="col-md-6 ms-auto">
-                            <table class="table table-borderless">
-                                <tr class="border-top">
-                                    <td class="text-end">
-                                        <h5 class="mb-0"><strong>Total:</strong></h5>
-                                    </td>
-                                    <td class="text-end">
-                                        <h5 class="mb-0 text-danger"><strong>LKR ${order.total}</strong></h5>
-                                    </td>
-                                </tr>
-                            </table>
+                                <hr class="my-4">
+
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-2">Thank you for your order!</p>
+                            <p class="text-muted small mb-4">For any questions about this invoice, please contact us at
+                                info@grillmaster.com</p>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-danger" onclick="printInvoice()">
+                                    <i class="bi bi-printer"></i> Print Invoice
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="#" class="btn btn-link text-decoration-none" onclick="goBack('home')">← Back to Home</a>
                         </div>
                     </div>
-
-                    <hr class="my-4">
-
                 </div>
             </div>
-
-            <div class="text-center mt-4">
-                <p class="text-muted mb-2">Thank you for your order!</p>
-                <p class="text-muted small mb-4">For any questions about this invoice, please contact us at
-                    info@grillmaster.com</p>
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-danger" onclick="printInvoice()">
-                        <i class="bi bi-printer"></i> Print Invoice
-                    </button>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="#" class="btn btn-link text-decoration-none" onclick="goBack('home')">← Back to Home</a>
-            </div>
-        </div>
-    </div>
-</div>
         `;
 
         document.getElementById("invoiceContainer").innerHTML = invoiceContainer;

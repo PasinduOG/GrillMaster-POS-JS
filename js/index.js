@@ -1,4 +1,4 @@
-import { loadNewOrder, renderOrderList } from "./app.js";
+import { loadAllCustomers, loadNewOrder, renderOrderList } from "./app.js";
 import fetchBurgers from "./fetchBurgers.js";
 import fetchDrinks from "./fetchDrinks.js";
 import fetchFries from "./fetchFries.js";
@@ -66,6 +66,8 @@ function loadComponent(name, callback) {
                 fetchItems();
                 renderOrderList();
                 loadNewOrder();
+                loadAllCustomers();
+                document.getElementById("footer").style.display = "none";
             } else if (name == "invoice") {
                 document.getElementById("header").style.display = "none";
                 document.getElementById("footer").style.display = "none";
@@ -210,12 +212,13 @@ export function generateInvoice(order, arr) {
                             <tbody id="invoiceItems">`;
 
         arr.forEach(item => {
+            const total = item.quantity * item.price;
             invoiceContainer += `
                     <tr>
                         <td>${item.name}</td>
                         <td class="text-center">${item.quantity}</td>
                         <td class="text-end">${item.price.toFixed(2)}</td>
-                        <td class="text-end">${(item.quantity * item.price).toFixed(2)}</td>
+                        <td class="text-end">${total.toFixed(2)}</td>
                     </tr>
                 `;
         });
@@ -247,13 +250,10 @@ export function generateInvoice(order, arr) {
             <div class="text-center mt-4">
                 <p class="text-muted mb-2">Thank you for your order!</p>
                 <p class="text-muted small mb-4">For any questions about this invoice, please contact us at
-                    info@burgershop.com</p>
-                <div class="d-flex justify-content-center gap-2">
+                    info@grillmaster.com</p>
+                <div class="d-flex justify-content-center">
                     <button class="btn btn-danger" onclick="printInvoice()">
                         <i class="bi bi-printer"></i> Print Invoice
-                    </button>
-                    <button class="btn btn-outline-secondary">
-                        Download PDF
                     </button>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { generateInvoice } from "./index.js";
 
 const orderList = JSON.parse(localStorage.getItem("orders")) || [];
 const processedOrder = JSON.parse(localStorage.getItem("checkoutOrders")) || [];
+const savedCustomers = JSON.parse(localStorage.getItem("registeredCustomers")) || [];
 let totalAmount;
 
 function generateOrderId() {
@@ -71,6 +72,10 @@ function selectItem(id) {
 
 function saveOrders() {
     localStorage.setItem("orders", JSON.stringify(orderList));
+}
+
+function saveCustomers() {
+    localStorage.setItem("registeredCustomers", JSON.stringify(savedCustomers));
 }
 
 
@@ -187,19 +192,82 @@ function calculateTotal() {
     return total;
 }
 
+export function loadAllCustomers() {
+    let customerSelect = document.getElementById("customerSelect");
+    customerSelect.innerHTML = `<option value="">Select Customer</option>`;
+
+    savedCustomers.forEach(customer => {
+        customerSelect.innerHTML += `<option value="${customer.phone}">${customer.name}</option>`;
+
+        if (customerSelect.value == customer.phone) {
+            document.getElementById("customerName").value = customer.name;
+            document.getElementById("customerPhone").value = customer.phone;
+        }
+    });
+    customerSelect.addEventListener("change", selectExistingCustomer);
+}
+
+function selectExistingCustomer(event) {
+    const selectedPhone = event.target.value;
+
+    if (selectedPhone === "") {
+        document.getElementById("customerName").value = "";
+        document.getElementById("customerPhone").value = "";
+        return;
+    }
+
+    const selectedCustomer = savedCustomers.find(
+        customer => customer.phone === selectedPhone
+    );
+
+    if (selectedCustomer) {
+        document.getElementById("customerName").value = selectedCustomer.name;
+        document.getElementById("customerPhone").value = selectedCustomer.phone;
+        document.getElementById("customerNameLabel").innerText = selectedCustomer.name;
+        document.getElementById("checkoutUserName").innerText = selectedCustomer.name;
+    }
+}
+
 function saveCustomerDetails() {
     let customerName = document.getElementById("customerName").value;
     let customerPhone = document.getElementById("customerPhone").value;
 
-    const customerData = {
-        name: customerName || "user",
-        phone: customerPhone || ""
-    };
+    let customerData;
+
+    if (customerName.value == "" && customerPhone.value == "") {
+        customerData = {
+            name: "user",
+            phone: ""
+        }
+    } else {
+        customerData = {
+            name: customerName,
+            phone: customerPhone
+        };
+
+        const isDuplicate = savedCustomers.find(customer =>
+            customer.phone && Number(customer.phone) === Number(customerData.phone)
+        );
+
+        if (isDuplicate) {
+            Swal.fire({
+                title: "Error!",
+                text: "Customer with this phone number already exists",
+                icon: "error"
+            });
+        } else if (customerPhone != "") {
+            savedCustomers.push(customerData);
+            saveCustomers();
+        }
+    }
+
     let customer = document.getElementById("customerNameLabel");
     let checkoutCustomer = document.getElementById("checkoutUserName");
 
     customer.innerHTML = customerData.name;
     checkoutCustomer.innerText = customerData.name;
+    loadAllCustomers();
+
     return customerData;
 }
 
@@ -245,7 +313,7 @@ function checkoutOrder() {
 
     clearOrder();
     localStorage.removeItem("activeOrderId");
-    
+
     const newOrderId = generateOrderId();
     localStorage.setItem("activeOrderId", newOrderId);
     updateOrderIdLabel();

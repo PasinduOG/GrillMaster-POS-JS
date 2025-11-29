@@ -2,7 +2,7 @@ export let allItemArray = [];
 
 export default async function fetchItems(){
 
-    let res = await fetch("/json/items.json");
+    let res = await fetch("json/items.json");
     let items = await res.json();
 
     allItemArray = items;

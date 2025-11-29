@@ -1,5 +1,5 @@
 export default async function fetchDrinks() {
-    let res = await fetch("/json/items.json");
+    let res = await fetch("json/items.json");
     let data = await res.json();
 
     let container = document.getElementById("homeDrinksList");

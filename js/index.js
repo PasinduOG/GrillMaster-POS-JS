@@ -14,8 +14,8 @@ let logOutNav;
 
 fetch("components/navbar/navbar.html")
     .then(res => res.text())
-    .then(html => {
-        document.getElementById("header").innerHTML = html;
+    .then(component => {
+        document.getElementById("header").innerHTML = component;
         posNav = document.getElementById("posNav");
         loginNav = document.getElementById("loginNav");
         logOutNav = document.getElementById("logOutNav");
@@ -25,7 +25,7 @@ fetch("components/navbar/navbar.html")
 
 fetch("components/footer/footer.html")
     .then(res => res.text())
-    .then(html => document.getElementById("footer").innerHTML = html);
+    .then(component => document.getElementById("footer").innerHTML = component);
 
 function logToPos() {
     if (customerData.length == 0) {
@@ -51,8 +51,8 @@ function updateNav() {
 function loadComponent(name, callback) {
     fetch(`components/${name}/${name}.html`)
         .then(res => res.text())
-        .then(html => {
-            root.innerHTML = html;
+        .then(component => {
+            root.innerHTML = component;
 
             requestAnimationFrame(() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });

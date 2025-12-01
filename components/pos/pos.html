@@ -28,7 +28,7 @@
                 <div class="card-footer bg-light p-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="mb-0 fw-bold">Customer:</p>
-                        <p class="mb-0 text-danger fw-bolder" id="customerNameLabel">User</p>
+                        <p class="mb-0 text-danger fw-bolder" id="customerNameLabel">Guest</p>
                     </div>
                     <hr class="my-3">
                     <div class="d-flex justify-content-between align-items-center">
@@ -75,8 +75,27 @@
                     <p class="text-muted">Total Amount Due</p>
                 </div>
                 <div class="mb-3">
-                    <label for="amountReceived" class="form-label fw-bold">Amount Received (Cash)</label>
+                    <label class="form-label fw-bold">Payment Method</label>
+                    <div class="btn-group w-100" role="group">
+                        <input type="radio" class="btn-check" name="paymentMethod" id="paymentCash" value="cash" checked onchange="togglePayment()">
+                        <label class="btn btn-outline-success" for="paymentCash">
+                            <i class="fas fa-money-bill-wave me-2"></i>Cash
+                        </label>
+                        
+                        <input type="radio" class="btn-check" name="paymentMethod" id="paymentCard" value="card" onchange="togglePayment()">
+                        <label class="btn btn-outline-primary" for="paymentCard">
+                            <i class="fas fa-credit-card me-2"></i>Card
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3" id="cashSection">
+                    <label for="amountReceived" class="form-label fw-bold">Amount Received</label>
                     <input type="number" class="form-control form-control-lg" id="amountReceived" placeholder="0.00">
+                </div>
+                <div class="mb-3 d-none" id="cardSection">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>Card payment will process the exact amount
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

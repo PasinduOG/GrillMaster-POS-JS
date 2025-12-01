@@ -74,16 +74,19 @@ function loadComponent(name, callback) {
             });
 
             if (name == "home") {
+                document.getElementById("header").style.display = "block";
+                document.getElementById("footer").style.display = "block";
                 fetchBurgers();
                 fetchFries();
                 fetchDrinks();
                 setUserName();
             } else if (name == "pos") {
+                document.getElementById("header").style.display = "block";
+                document.getElementById("footer").style.display = "none";
                 fetchItems();
                 renderOrderList();
                 loadNewOrder();
                 loadAllCustomers();
-                document.getElementById("footer").style.display = "none";
             } else if (name == "invoice") {
                 document.getElementById("header").style.display = "none";
                 document.getElementById("footer").style.display = "none";
@@ -199,7 +202,7 @@ export function generateInvoice(order, arr) {
                                     </div>
                                     <div class="col-md-6">
                                         <h5 class="text-uppercase text-secondary mb-3">Payment Method:</h5>
-                                        <p class="mb-1">Cash</p>
+                                        <p class="mb-1">${order.paymentMethod ? order.paymentMethod.charAt(0).toUpperCase() + order.paymentMethod.slice(1) : 'Cash'}</p>
                                     </div>
                                 </div>
 
@@ -243,9 +246,9 @@ export function generateInvoice(order, arr) {
                                                     <h6 class="mb-0 text-secondary"><strong>Change:</strong></h6>
                                                 </td>
                                                 <td class="text-end">
-                                                    <h2 class="mb-0 text-danger"><strong>LKR ${order.total}</strong></h2>
+                                                    <h2 class="mb-0 text-danger"><strong>LKR ${order.total.toFixed(2)}</strong></h2>
                                                     <hr class="my-3"/>
-                                                    <h6 class="mb-0 text-danger"><strong>LKR ${order.received}</strong></h6>
+                                                    <h6 class="mb-0 text-danger"><strong>LKR ${order.received.toFixed(2)}</strong></h6>
                                                     <h6 class="mb-0 text-danger"><strong>LKR ${order.change.toFixed(2)}</strong></h6>
                                                 </td>
                                             </tr>

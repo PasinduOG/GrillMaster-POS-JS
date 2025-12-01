@@ -234,7 +234,7 @@ function saveCustomerDetails() {
     let customerName = document.getElementById("customerName").value;
     let customerPhone = document.getElementById("customerPhone").value;
 
-    if (!(customerPhone.startsWith("0") && customerPhone.length === 10)) {
+    if (customerPhone && !(customerPhone.startsWith("0") && customerPhone.length === 10)) {
         Swal.fire({
             title: "Error!",
             text: "This phone number is not valid",
@@ -245,30 +245,26 @@ function saveCustomerDetails() {
 
     let customerData;
 
-    if (customerName.value == "" && customerPhone.value == "") {
+    if (customerName == "" && customerPhone == "") {
         customerData = {
-            name: "user",
+            name: "Guest",
             phone: ""
         }
     } else {
         customerData = {
-            name: customerName,
+            name: customerName || "Guest",
             phone: customerPhone
         };
 
-        const isDuplicate = savedCustomers.find(customer =>
-            customer.phone && Number(customer.phone) === Number(customerData.phone)
-        );
+        if (customerPhone) {
+            const existingCustomer = savedCustomers.find(customer =>
+                customer.phone && Number(customer.phone) === Number(customerData.phone)
+            );
 
-        if (isDuplicate) {
-            Swal.fire({
-                title: "Error!",
-                text: "Customer with this phone number already exists",
-                icon: "error"
-            });
-        } else if (customerPhone != "") {
-            savedCustomers.push(customerData);
-            saveCustomers();
+            if (!existingCustomer) {
+                savedCustomers.push(customerData);
+                saveCustomers();
+            }
         }
     }
 
@@ -282,18 +278,48 @@ function saveCustomerDetails() {
     return customerData;
 }
 
+function togglePayment() {
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    const cashSection = document.getElementById("cashSection");
+    const cardSection = document.getElementById("cardSection");
+    
+    if (paymentMethod === "cash") {
+        cashSection.classList.remove("d-none");
+        cardSection.classList.add("d-none");
+    } else {
+        cashSection.classList.add("d-none");
+        cardSection.classList.remove("d-none");
+    }
+}
+
 function checkoutOrder() {
     const customer = saveCustomerDetails();
-    const amount = Number(document.getElementById("amountReceived").value);
-
-    if (amount < totalAmount) {
-        Swal.fire({
-            title: "Checkout Failed!",
-            text: "Insufficient Amount!",
-            icon: "error"
-        });
+    
+    if (customer === null) {
         return;
     }
+
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    let amount;
+    let change = 0;
+
+    if (paymentMethod === "cash") {
+        amount = Number(document.getElementById("amountReceived").value);
+        
+        if (amount < totalAmount) {
+            Swal.fire({
+                title: "Checkout Failed!",
+                text: "Insufficient Amount!",
+                icon: "error"
+            });
+            return;
+        }
+        change = amount - totalAmount;
+    } else {
+        amount = totalAmount;
+        change = 0;
+    }
+
     const orderId = getActiveOrderId();
 
     const order = {
@@ -302,16 +328,25 @@ function checkoutOrder() {
         items: [...orderList],
         total: totalAmount,
         received: amount,
-        change: amount - totalAmount,
+        change: change,
+        paymentMethod: paymentMethod,
         date: new Date().toLocaleString()
     }
 
     processedOrder.push(order);
 
     localStorage.setItem("checkoutOrders", JSON.stringify(processedOrder));
+    
+    let successMessage = `Order ID: ${orderId}`;
+    if (paymentMethod === "cash") {
+        successMessage += `\nChange: LKR ${change.toFixed(2)}`;
+    } else {
+        successMessage += `\nPaid by Card: LKR ${amount.toFixed(2)}`;
+    }
+    
     Swal.fire({
         title: "Payment Successful!",
-        text: `Order ID: ${orderId}\nChange: LKR ${(amount - totalAmount).toFixed(2)}`,
+        text: successMessage,
         icon: "success"
     });
 
@@ -338,3 +373,4 @@ window.clearOrder = clearOrder;
 window.calculateTotal = calculateTotal;
 window.saveCustomerDetails = saveCustomerDetails;
 window.checkoutOrder = checkoutOrder;
+window.togglePayment = togglePayment;

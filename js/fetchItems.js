@@ -2,17 +2,17 @@ export let allItemArray = [];
 
 export default async function fetchItems(){
 
-    let res = await fetch("json/items.json");
-    let items = await res.json();
+    let res = await fetch("https://rest-grillmaster-api.vercel.app/item/all");
+    let data = await res.json();
 
-    allItemArray = items;
+    allItemArray = data.items;
 
     let container = document.getElementById("posBurgerContainer");
     container.innerHTML = "";
 
-    items.forEach(item => {
+    data.items.forEach(item => {
         container.innerHTML += `
-            <div class="col-md-3 col-sm-4 col-6" onclick="selectItem('${item.id}');">
+            <div class="col-md-3 col-sm-4 col-6" onclick="selectItem('${item._id}');">
                 <div class="card h-100 shadow-lg" role="button">
                     <div class="image-container d-flex align-item-center justify-content-center bg-light"
                         style="height: 120px; overflow: hidden;">

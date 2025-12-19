@@ -41,24 +41,24 @@ function updateOrderIdLabel() {
 }
 
 function selectItem(id) {
-    const itemId = parseInt(id);
+    const itemId = id;
     const itemList = allItemArray;
 
-    const productDetails = itemList.find(product => product.id === itemId);
-    const existingItem = orderList.find(product => product.id === itemId);
+    const productDetails = itemList.find(product => product._id === itemId);
+    const existingItem = orderList.find(product => product._id === itemId);
 
     const customerName = document.getElementById("customerName").value || "user";
 
     if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.qty += 1;
         saveOrders();
         calculateTotal();
     } else {
         const order = {
-            id: productDetails.id,
+            _id: productDetails._id,
             name: productDetails.name,
             price: productDetails.price,
-            quantity: 1,
+            qty: 1,
             image_url: productDetails.image_url
         }
         orderList.push(order);
@@ -91,11 +91,11 @@ export function renderOrderList() {
     }
 
     orderList.forEach(item => {
-        const itemTotal = item.price * item.quantity;
+        const itemTotal = item.price * item.qty;
         grandTotal += itemTotal;
 
         card += `
-            <div class="list-group-item d-flex align-items-center" data-item-id="${item.id}">
+            <div class="list-group-item d-flex align-items-center" data-item-id="${item._id}">
     <div class="flex-shrink-0 me-3">
         <img src="${item.image_url}" alt="Item Image" class="img-fluid rounded" style="width: 60px; object-fit: cover;">
     </div>
@@ -107,16 +107,16 @@ export function renderOrderList() {
                 <small class="text-muted">LKR ${item.price.toFixed(2)} each</small>
             </div>
 
-            <button class="btn btn-sm btn-outline-danger p-1" onclick="removeItem(${item.id})">
+            <button class="btn btn-sm btn-outline-danger p-1" onclick="removeItem(${item._id})">
                 <i class="fas fa-trash-alt fa-sm"></i>
             </button>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group btn-group-sm flex-shrink-0" role="group" aria-label="Quantity controls">
-                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item.id}, -1)">-</button>
-                <span class="btn btn-warning disabled text-dark fw-bold px-3">${item.quantity}</span>
-                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item.id}, 1)">+</button>
+                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item._id}, -1)">-</button>
+                <span class="btn btn-warning disabled text-dark fw-bold px-3">${item.qty}</span>
+                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item._id}, 1)">+</button>
             </div>
 
             <strong class="text-warning fs-5">LKR ${itemTotal.toFixed(2)}</strong>
@@ -130,14 +130,14 @@ export function renderOrderList() {
 }
 
 function updateQuantity(id, change) {
-    const itemId = parseInt(id);
-    const existingItem = orderList.find(item => item.id == itemId);
+    const itemId = id;
+    const existingItem = orderList.find(item => item._id == itemId);
 
     if (existingItem) {
-        existingItem.quantity += change;
+        existingItem.qty += change;
         saveOrders();
 
-        if (existingItem.quantity <= 0) {
+        if (existingItem.qty <= 0) {
             removeItem(itemId);
         } else {
             renderOrderList();
@@ -147,9 +147,9 @@ function updateQuantity(id, change) {
 }
 
 function removeItem(id) {
-    const itemId = parseInt(id);
+    const itemId = id;
 
-    const index = orderList.findIndex(item => item.id == itemId);
+    const index = orderList.findIndex(item => item._id == itemId);
 
     if (index != -1) {
         orderList.splice(index, 1);
@@ -182,7 +182,7 @@ function calculateTotal() {
             checkoutPrice.innerText = "LKR 0.00";
             return;
         }
-        total += item.quantity * item.price;
+        total += item.qty * item.price;
     });
 
     totalLabel.innerText = "LKR " + total.toFixed(2);

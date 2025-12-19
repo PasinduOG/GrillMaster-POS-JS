@@ -8,7 +8,9 @@ const root = document.getElementById("root");
 
 const customerData = JSON.parse(localStorage.getItem("loggedInCustomer")) || [];
 
+let homeNav;
 let posNav;
+let itemManagementNav;
 let loginNav;
 let logOutNav;
 
@@ -16,7 +18,9 @@ fetch("components/navbar/navbar.html")
     .then(res => res.text())
     .then(component => {
         document.getElementById("header").innerHTML = component;
+        homeNav = document.getElementById("homeNav");
         posNav = document.getElementById("posNav");
+        itemManagementNav = document.getElementById("itemManagementNav");
         loginNav = document.getElementById("loginNav");
         logOutNav = document.getElementById("logOutNav");
         setUserName();
@@ -38,10 +42,12 @@ function logToPos() {
 function updateNav() {
     if (customerData.length === 0) {
         posNav.classList.add("d-none");
+        itemManagementNav.classList.add("d-none");
         loginNav.classList.remove("d-none");
         logOutNav.classList.add("d-none");
     } else {
         posNav.classList.remove("d-none");
+        itemManagementNav.classList.remove("d-none");
         loginNav.classList.add("d-none");
         logOutNav.classList.remove("d-none");
 
@@ -76,6 +82,9 @@ function loadComponent(name, callback) {
             if (name == "home") {
                 document.getElementById("header").style.display = "block";
                 document.getElementById("footer").style.display = "block";
+                homeNav.classList.add("active");
+                posNav.classList.remove("active");
+                itemManagementNav.classList.remove("active");
                 fetchBurgers();
                 fetchFries();
                 fetchDrinks();
@@ -83,6 +92,9 @@ function loadComponent(name, callback) {
             } else if (name == "pos") {
                 document.getElementById("header").style.display = "block";
                 document.getElementById("footer").style.display = "none";
+                homeNav.classList.remove("active");
+                posNav.classList.add("active");
+                itemManagementNav.classList.remove("active");
                 fetchItems();
                 renderOrderList();
                 loadNewOrder();

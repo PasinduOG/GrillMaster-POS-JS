@@ -107,16 +107,16 @@ export function renderOrderList() {
                 <small class="text-muted">LKR ${item.price.toFixed(2)} each</small>
             </div>
 
-            <button class="btn btn-sm btn-outline-danger p-1" onclick="removeItem(${item._id})">
+            <button class="btn btn-sm btn-outline-danger p-1" onclick="removeItem('${item._id}')">
                 <i class="fas fa-trash-alt fa-sm"></i>
             </button>
         </div>
 
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group btn-group-sm flex-shrink-0" role="group" aria-label="Quantity controls">
-                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item._id}, -1)">-</button>
+                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity('${item._id}', -1)">-</button>
                 <span class="btn btn-warning disabled text-dark fw-bold px-3">${item.qty}</span>
-                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity(${item._id}, 1)">+</button>
+                <button class="btn btn-outline-warning text-dark" onclick="updateQuantity('${item._id}', 1)">+</button>
             </div>
 
             <strong class="text-warning fs-5">LKR ${itemTotal.toFixed(2)}</strong>

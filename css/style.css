@@ -10,6 +10,16 @@ body{
     font-family: "Kedebideri", sans-serif;
 }
 
+/* Hide scrollbars for all elements */
+*::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 @media print {
     body * {
         visibility: hidden;

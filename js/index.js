@@ -219,12 +219,12 @@ export function generateInvoice(order, arr) {
                                         <tbody id="invoiceItems">`;
 
         arr.forEach(item => {
-            const total = item.quantity * item.price;
+            const total = item.qty * item.price;
 
             invoiceContainer += `
                                 <tr>
                                     <td>${item.name}</td>
-                                    <td class="text-center">${item.quantity}</td>
+                                    <td class="text-center">${item.qty}</td>
                                     <td class="text-end">${item.price.toFixed(2)}</td>
                                     <td class="text-end">${total.toFixed(2)}</td>
                                 </tr>
